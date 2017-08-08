@@ -1,4 +1,4 @@
-package cryjin.archeryapp;
+package cryjin.archeryapp.data;
 
 /**
  * Created by chaelimseo on 1/26/17.
@@ -16,26 +16,36 @@ import java.util.Random;
 
 //Class to store user information - average arrow value, age
 
+
 public class User {
 
     Random rand;
 
-    public String name;
+    public String userName;
+    public String email;
     public int avg_arrow_value;
     public int total_num_arrows;
     public int total_arrow_score;
 
+    public User(){
+
+    }
+
+    //when signing up
+    public User(String userName, String email){
+        this.userName = userName;
+        this.email = email;
+    }
 
     public User(String name){
 
-        this.name = name;
         avg_arrow_value = 0;
         total_num_arrows = 0;
         total_arrow_score = 0;
     }
 
     public String getName(){
-        return name;
+        return userName;
     }
 
     public int getAvg_arrow_value() {
@@ -91,14 +101,16 @@ public class User {
     public int[] generate_arrow_vals(User user){
 
         //return a list of 3 integers near the user's average
-        int set_avg = user.getAvg_arrow_value() * 3;
-        int[] ans = new int[3];
+        int threeMatch = 3;
+        int threshold = 10;
+        int set_avg = user.getAvg_arrow_value() * threeMatch;
+        int[] ans = new int[threeMatch];
 
-        for (int i=0; i<3; i++){
-            int c = set_avg/3 + rand.nextInt((2 - (-1)) +1 ) -1;
+        for (int i=0; i<threeMatch; i++){
+            int c = set_avg/threeMatch + rand.nextInt(((threeMatch-1) - (-1)) + 1 ) - 1;
 
-            if( c > 10)
-                c = 10;
+            if( c > threshold)
+                c = threshold;
 
             if (c < 0)
                 c = 0;
@@ -153,24 +165,22 @@ public class User {
             num_arrows += 3;
             num_score += set_user_score;
 
-            if (user_score == 5 & com_score == 5){
-                System.out.println("one arrow shoot off");
-
-                /**
-                 *  #generate an arrow value
-                 comp_arrow = user.avg_arrow_value + 0.3 #modify to make this more random, capped at 10 - decimal values for approximate distance to center
-                 user_arrow = float(input("Your arrow value:"))
-
-                 num_arrows += 1
-                 num_score += user_arrow
-
-                 if comp_arrow > user_arrow:
-                 print("You lose.")
-                 elif comp_arrow < user_arrow:
-                 print("You win.")
-
-                 */
-            }
+//            if (user_score == 5 & com_score == 5){
+//                System.out.println("one arrow shoot off");
+//
+//
+//                 //generate an arrow value
+//                 double comp_arrow = avg_arrow_value + 0.3; //modify to make this more random, capped at 10 - decimal values for approximate distance to center
+//                 double user_arrow = input("Your arrow value:")
+//
+//                 num_arrows += 1;
+//                 num_score += user_arrow;
+//
+//                 if (comp_arrow > user_arrow)
+//                    System.out.print("You lose.");
+//                 else if (comp_arrow < user_arrow)
+//                    System.out.print("You win.");
+//            }
 
             user.update_arrow_count(num_arrows);
             user.update_arrow_score(num_score);
